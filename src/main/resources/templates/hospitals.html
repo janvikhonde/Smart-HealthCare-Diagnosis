@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nearby Hospitals - Smart Healthcare</title>
+
+    <!-- ✅ Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+    <style>
+        /* ===================== GLOBAL ===================== */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #e6f7ff, #ffffff);
+            margin: 0;
+            color: #1e293b;
+        }
+
+        h1, h3 {
+            color: #0b3d91;
+        }
+
+        .page-container {
+            padding: 40px 20px;
+        }
+
+        /* ===================== NAVBAR ===================== */
+        .navbar {
+            background: linear-gradient(90deg, #0078ff, #00bcd4);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin: 0 12px;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            text-decoration: underline;
+            color: #ffe082;
+        }
+
+        /* ===================== HEADER ===================== */
+        .page-header {
+            text-align: center;
+            margin-bottom: 30px;
+            animation: fadeInDown 1s ease-in-out;
+        }
+
+        .page-header h1 {
+            font-size: 2.2rem;
+            color: #0078ff;
+        }
+
+        .page-header p {
+            font-size: 1.1rem;
+            color: #4b5563;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===================== SEARCH BAR ===================== */
+        .search-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .search-container input {
+            padding: 12px 14px;
+            border: 2px solid #0078ff;
+            border-radius: 8px;
+            width: 220px;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+        .search-container input:focus {
+            box-shadow: 0 0 8px rgba(0, 120, 255, 0.6);
+            outline: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, #0078ff, #00bcd4);
+            color: white;
+            border: none;
+            padding: 12px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(90deg, #005fcc, #00a0b4);
+        }
+
+        /* 🎤 Voice Button */
+        .mic-btn {
+            background: #00bcd4;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            padding: 10px;
+            margin-left: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .mic-btn:hover {
+            background: #0078ff;
+        }
+
+        /* ===================== MAP ===================== */
+        #map {
+            height: 420px;
+            margin: 20px 0;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25);
+            display: none;
+        }
+
+        /* ===================== HOSPITAL CARDS ===================== */
+        .hospital-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 15px;
+        }
+
+        .hospital-card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 18px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border-left: 6px solid #0078ff;
+        }
+
+        .hospital-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+        }
+
+        .hospital-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .hospital-specialty {
+            background: #e3f2fd;
+            color: #0078ff;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        .hospital-details p {
+            margin: 6px 0;
+            font-size: 0.95rem;
+        }
+
+        .btn-directions {
+            background: linear-gradient(90deg, #0078ff, #00bcd4);
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: 0.3s;
+        }
+
+        .btn-directions:hover {
+            background: linear-gradient(90deg, #005fcc, #00a0b4);
+        }
+
+        /* Floating GPS button */
+        .floating-btn {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background: #0078ff;
+            color: white;
+            padding: 16px;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+            transition: 0.3s;
+            font-size: 22px;
+        }
+
+        .floating-btn:hover {
+            background: #005fcc;
+            transform: scale(1.1);
+        }
+
+        /* No results */
+        .no-results {
+            text-align: center;
+            color: #555;
+            font-weight: 500;
+            padding: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links a {
+                display: block;
+                margin: 8px 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<nav class="navbar">
+    <div class="container" style="display:flex; justify-content:space-between; align-items:center; width:90%; margin:auto;">
+        <div class="nav-brand">🏥 Smart Healthcare</div>
+        <div class="nav-links">
+            <a href="/dashboard">Dashboard</a>
+            <a href="/symptom-analyzer">Analyzer</a>
+            <a href="/ai-assistant">AI Assistant</a>
+            <a href="/hospitals" style="font-weight:bold;">Hospitals</a>
+            <a href="/supplements">Supplements</a>
+            <a href="/logout" class="btn-logout">Logout</a>
+        </div>
+    </div>
+</nav>
+
+<div class="page-container">
+    <div class="page-header">
+        <h1>🏥 Find Nearby Hospitals</h1>
+        <p>Smart AI helps you locate trusted healthcare centers near you.</p>
+    </div>
+
+    <div class="search-container">
+        <div style="display:flex; align-items:center;">
+            <input type="text" id="citySearch" placeholder="Search by city (e.g., Mumbai)" onkeyup="searchHospitals()">
+            <button class="mic-btn" onclick="startVoiceSearch('citySearch')">🎤</button>
+        </div>
+        <div style="display:flex; align-items:center;">
+            <input type="text" id="specialtySearch" placeholder="Search by specialty (e.g., Cardiology)" onkeyup="searchHospitals()">
+            <button class="mic-btn" onclick="startVoiceSearch('specialtySearch')">🎤</button>
+        </div>
+        <button class="btn-primary" onclick="findNearbyHospitals()">📍 Find Nearby Hospitals</button>
+    </div>
+
+    <div id="loading" style="text-align:center; display:none;">Loading nearby hospitals...</div>
+    <div id="map"></div>
+
+    <div id="hospitalList" class="hospital-grid" th:if="${hospitals}">
+        <div class="hospital-card" th:each="hospital : ${hospitals}">
+            <div class="hospital-header">
+                <h3 th:text="${hospital.name}">Hospital Name</h3>
+                <span class="hospital-specialty" th:text="${hospital.specialty}">Specialty</span>
+            </div>
+            <div class="hospital-details">
+                <p><strong>📍 Address:</strong> <span th:text="${hospital.address}"></span></p>
+                <p><strong>🏙️ City:</strong> <span th:text="${hospital.city}"></span></p>
+                <p><strong>📞 Phone:</strong> <span th:text="${hospital.phone}"></span></p>
+                <p><strong>🏥 Services:</strong> <span th:text="${hospital.services}"></span></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Floating GPS Button -->
+<div class="floating-btn" onclick="findNearbyHospitals()">📍</div>
+
+<!-- ✅ Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+    let userLat, userLon;
+
+    // 🎙️ Voice Search Feature
+    function startVoiceSearch(inputId) {
+        if (!('webkitSpeechRecognition' in window)) {
+            alert("Voice recognition not supported in your browser.");
+            return;
+        }
+
+        const recognition = new webkitSpeechRecognition();
+        recognition.lang = 'en-US';
+        recognition.start();
+
+        recognition.onstart = () => alert("🎤 Speak now...");
+        recognition.onresult = event => {
+            const transcript = event.results[0][0].transcript;
+            document.getElementById(inputId).value = transcript;
+            searchHospitals();
+        };
+    }
+
+    function searchHospitals() {
+        const city = document.getElementById('citySearch').value;
+        const specialty = document.getElementById('specialtySearch').value;
+        let url = '/search-hospitals?';
+        if (city) url += `city=${encodeURIComponent(city)}&`;
+        if (specialty) url += `specialty=${encodeURIComponent(specialty)}`;
+
+        fetch(url)
+            .then(res => res.json())
+            .then(data => displayHospitals(data))
+            .catch(err => console.error(err));
+    }
+
+    function findNearbyHospitals() {
+        const loading = document.getElementById('loading');
+        const mapDiv = document.getElementById('map');
+        loading.style.display = 'block';
+        document.getElementById('hospitalList').innerHTML = '';
+        mapDiv.style.display = 'none';
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(pos => {
+                userLat = pos.coords.latitude;
+                userLon = pos.coords.longitude;
+                const radiusKm = 50;
+
+                fetch(`/nearby-hospitals?lat=${userLat}&lon=${userLon}&radiusKm=${radiusKm}`)
+                    .then(res => res.json())
+                    .then(hospitals => {
+                        loading.style.display = 'none';
+                        displayHospitals(hospitals);
+                        showHospitalsOnMap(userLat, userLon, hospitals);
+                    })
+                    .catch(() => {
+                        loading.style.display = 'none';
+                        alert("Error fetching nearby hospitals");
+                    });
+            }, () => {
+                loading.style.display = 'none';
+                alert("Please enable GPS to find nearby hospitals.");
+            });
+        } else {
+            alert("Geolocation not supported by your browser.");
+        }
+    }
+
+    function showHospitalsOnMap(lat, lon, hospitals) {
+        const mapDiv = document.getElementById('map');
+        mapDiv.style.display = 'block';
+        const map = L.map('map').setView([lat, lon], 12);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+            attribution: '&copy; OpenStreetMap'
+        }).addTo(map);
+
+        const userMarker = L.circleMarker([lat, lon], {
+            radius: 8,
+            fillColor: "#0078ff",
+            color: "#fff",
+            weight: 2,
+            opacity: 1,
+            fillOpacity: 0.9
+        }).addTo(map).bindPopup("<b>You are here 🧍‍♀️</b>").openPopup();
+
+        hospitals.forEach(h => {
+            if (h.latitude && h.longitude) {
+                L.marker([h.latitude, h.longitude])
+                    .addTo(map)
+                    .bindPopup(`
+                        <b>${h.name}</b><br>
+                        ${h.city}<br>
+                        Specialty: ${h.specialty || ''}<br>
+                        <button class='btn-directions' onclick='openDirections(${h.latitude}, ${h.longitude})'>🚗 Get Directions</button>
+                    `);
+            }
+        });
+    }
+
+    function openDirections(destLat, destLon) {
+        if (userLat && userLon) {
+            const url = `https://www.google.com/maps/dir/${userLat},${userLon}/${destLat},${destLon}`;
+            window.open(url, '_blank');
+        } else {
+            alert("Please allow GPS access first.");
+        }
+    }
+
+    function displayHospitals(hospitals) {
+        const list = document.getElementById('hospitalList');
+        if (hospitals.length === 0) {
+            list.innerHTML = "<p class='no-results'>No hospitals found.</p>";
+            return;
+        }
+
+        list.innerHTML = hospitals.map(h => `
+            <div class="hospital-card">
+                <div class="hospital-header">
+                    <h3>${h.name}</h3>
+                    <span class="hospital-specialty">${h.specialty || ''}</span>
+                </div>
+                <div class="hospital-details">
+                    <p><strong>📍 Address:</strong> ${h.address}</p>
+                    <p><strong>🏙️ City:</strong> ${h.city}</p>
+                    <p><strong>📞 Phone:</strong> ${h.phone}</p>
+                    ${h.services ? `<p><strong>🏥 Services:</strong> ${h.services}</p>` : ''}
+                    <button class="btn-directions" onclick="openDirections(${h.latitude}, ${h.longitude})">🚗 Get Directions</button>
+                </div>
+            </div>
+        `).join('');
+    }
+</script>
+</body>
+</html>

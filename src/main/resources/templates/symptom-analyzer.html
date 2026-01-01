@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Symptom Analyzer - Smart Healthcare</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        /* === GLOBAL STYLES === */
+        body {
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 50%, #e1f5fe 100%);
+            color: #0a192f;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* === NAVBAR === */
+        .navbar {
+            background: linear-gradient(90deg, #1565c0, #0d47a1);
+            color: #fff;
+            padding: 1rem 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar .container {
+            width: 90%;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            font-size: 1.7rem;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            margin: 0 12px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #aee1ff;
+        }
+
+        .btn-logout {
+            background: #e53935;
+            color: white;
+            padding: 6px 14px;
+            border-radius: 6px;
+            transition: background 0.3s;
+        }
+
+        .btn-logout:hover {
+            background: #c62828;
+        }
+
+        /* === PAGE HEADER === */
+        .page-container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 2rem auto;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 2.3rem;
+            color: #0d47a1;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header p {
+            color: #444;
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+        }
+
+        /* === ANALYZER === */
+        .analyzer-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        .analyzer-input {
+            background: #ffffff;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            transition: transform 0.2s;
+        }
+
+        .analyzer-input:hover {
+            transform: translateY(-4px);
+        }
+
+        .analyzer-input textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 1.5px solid #90caf9;
+            border-radius: 10px;
+            font-size: 1rem;
+            resize: none;
+            background: #f9fbff;
+            color: #0d1b2a;
+        }
+
+        .help-text {
+            font-size: 0.9rem;
+            color: #777;
+            margin-bottom: 10px;
+        }
+
+        .btn-analyze, .btn-clear, .btn-example, .btn-voice {
+            margin: 10px 8px 0 0;
+            padding: 10px 18px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-analyze {
+            background: linear-gradient(90deg, #1565c0, #42a5f5);
+            color: white;
+        }
+        .btn-analyze:hover {
+            background: #0d47a1;
+        }
+
+        .btn-clear {
+            background: #ef5350;
+            color: white;
+        }
+        .btn-clear:hover {
+            background: #c62828;
+        }
+
+        .btn-example {
+            background: #64b5f6;
+            color: white;
+        }
+        .btn-example:hover {
+            background: #42a5f5;
+        }
+
+        .btn-voice {
+            background: #26c6da;
+            color: white;
+        }
+        .btn-voice:hover {
+            background: #00acc1;
+        }
+
+        /* === RESULTS === */
+        .analyzer-results {
+            background: #ffffff;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            animation: fadeIn 0.6s ease-in-out;
+        }
+
+        .result-header h2 {
+            color: #0d47a1;
+            font-size: 1.6rem;
+        }
+
+        .confidence-badge {
+            background: #e3f2fd;
+            color: #1565c0;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 20px;
+            margin-left: 8px;
+        }
+
+        .severity-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            color: white;
+        }
+
+        .severity-high { background: #d32f2f; }
+        .severity-moderate { background: #f9a825; }
+        .severity-low { background: #388e3c; }
+
+        .result-actions {
+            margin-top: 1.5rem;
+        }
+
+        .btn-secondary {
+            display: inline-block;
+            margin-right: 8px;
+            background: #90caf9;
+            color: #0d47a1;
+            padding: 8px 14px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .btn-secondary:hover {
+            background: #64b5f6;
+        }
+
+        /* === LOADING SPINNER === */
+        .loader {
+            display: none;
+            margin: 20px auto;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #1565c0;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        @keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
+
+        @media (max-width: 768px) {
+            .navbar .container {
+                flex-direction: column;
+                text-align: center;
+            }
+            .nav-links { margin-top: 10px; }
+        }
+    </style>
+</head>
+
+<body>
+<nav class="navbar">
+    <div class="container">
+        <div class="nav-brand">🏥 Smart Healthcare</div>
+        <div class="nav-links">
+            <a href="/dashboard">Dashboard</a>
+            <a href="/symptom-analyzer">Symptom Analyzer</a>
+            <a href="/ai-assistant">AI Assistant</a>
+            <a href="/hospitals">Hospitals</a>
+            <a href="/supplements">Supplements</a>
+            <a href="/logout" class="btn-logout">Logout</a>
+        </div>
+    </div>
+</nav>
+
+<div class="page-container">
+    <div class="page-header">
+        <h1>🤖 AI-Powered Symptom Analyzer</h1>
+        <p>Describe your symptoms below or use the mic 🎤 to speak — get instant, AI-generated insights.</p>
+    </div>
+
+    <div class="analyzer-container">
+        <div class="analyzer-input">
+            <h3>Enter Your Symptoms</h3>
+            <p class="help-text">Separate multiple symptoms with commas (e.g., fever, cough, headache)</p>
+            <textarea id="symptoms" placeholder="Example: fever, dry cough, fatigue, body ache" rows="6"></textarea>
+
+            <div>
+                <button onclick="analyzeSymptoms()" class="btn-analyze">🔍 Analyze</button>
+                <button onclick="clearSymptoms()" class="btn-clear">🧹 Clear</button>
+                <button onclick="loadExampleSymptoms()" class="btn-example">💡 Example</button>
+                <button onclick="startVoiceInput()" class="btn-voice">🎤 Voice</button>
+            </div>
+
+            <div id="loader" class="loader"></div>
+        </div>
+
+        <div id="results" class="analyzer-results" style="display: none;">
+            <h3>🧠 Analysis Results</h3>
+            <div class="result-card">
+                <div class="result-header">
+                    <h2 id="disease"></h2>
+                    <span id="confidence" class="confidence-badge"></span>
+                </div>
+                <div>
+                    <strong>Severity:</strong>
+                    <span id="severity" class="severity-badge"></span>
+                </div>
+                <div>
+                    <h4>Recommendations:</h4>
+                    <p id="recommendations"></p>
+                </div>
+                <div class="result-actions">
+                    <a href="/supplements" class="btn-secondary">💊 View Supplements</a>
+                    <a href="/hospitals" class="btn-secondary">🏥 Find Hospitals</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function analyzeSymptoms() {
+        const symptoms = document.getElementById('symptoms').value.trim();
+        if (!symptoms) return alert('⚠️ Please enter your symptoms.');
+
+        document.getElementById('loader').style.display = 'block';
+        const formData = new FormData();
+        formData.append('symptoms', symptoms);
+
+        fetch('/analyze-symptoms', { method: 'POST', body: formData })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('loader').style.display = 'none';
+            document.getElementById('results').style.display = 'block';
+            document.getElementById('disease').textContent = data.predictedDisease;
+            document.getElementById('confidence').textContent = data.confidenceScore + '% Confidence';
+            document.getElementById('severity').textContent = data.severity;
+            document.getElementById('recommendations').textContent = data.recommendations;
+
+            const badge = document.getElementById('severity');
+            badge.className = 'severity-badge';
+            if (data.severity === 'High') badge.classList.add('severity-high');
+            else if (data.severity === 'Moderate') badge.classList.add('severity-moderate');
+            else badge.classList.add('severity-low');
+        })
+        .catch(() => {
+            document.getElementById('loader').style.display = 'none';
+            alert('❌ Error analyzing symptoms. Please try again.');
+        });
+    }
+
+    function clearSymptoms() {
+        document.getElementById('symptoms').value = '';
+        document.getElementById('results').style.display = 'none';
+    }
+
+    function loadExampleSymptoms() {
+        document.getElementById('symptoms').value = 'fever, cough, body ache, sore throat';
+    }
+
+    function startVoiceInput() {
+        if (!('webkitSpeechRecognition' in window)) {
+            alert('🎤 Voice recognition not supported in this browser.');
+            return;
+        }
+        const recognition = new webkitSpeechRecognition();
+        recognition.lang = 'en-US';
+        recognition.start();
+        recognition.onresult = event => {
+            document.getElementById('symptoms').value = event.results[0][0].transcript;
+        };
+    }
+</script>
+</body>
+</html>

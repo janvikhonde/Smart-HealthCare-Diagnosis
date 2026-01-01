@@ -1,0 +1,358 @@
+<!-- src/main/resources/templates/supplements.html -->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💊 Supplement Suggestions - Smart Healthcare</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+    <style>
+        /* 🌈 Base Theme */
+        body {
+          font-family: "Segoe UI", Roboto, sans-serif;
+          margin: 0;
+          background: linear-gradient(to bottom right, #e3f2fd, #ffffff);
+          color: #333;
+        }
+
+        /* 🌟 Navbar */
+        .navbar {
+          background: linear-gradient(90deg, #0078ff, #00b4d8);
+          color: white;
+          padding: 15px 0;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .nav-brand {
+          font-size: 22px;
+          font-weight: bold;
+        }
+
+        .nav-links a {
+          color: white;
+          text-decoration: none;
+          margin: 0 10px;
+          font-weight: 500;
+          transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+          color: #d1ecff;
+        }
+
+        .btn-logout {
+          background-color: #ff4d4d;
+          padding: 6px 14px;
+          border-radius: 8px;
+          transition: 0.3s;
+        }
+
+        .btn-logout:hover {
+          background-color: #e60000;
+        }
+
+        /* 🧠 Page Header */
+        .page-container {
+          padding: 40px 0;
+        }
+
+        .page-header {
+          text-align: center;
+          margin-bottom: 30px;
+        }
+
+        .page-header h1 {
+          color: #0078ff;
+          font-size: 2rem;
+        }
+
+        .page-header p {
+          color: #555;
+          font-size: 1.1rem;
+        }
+
+        /* 🔍 Search Section */
+        .supplement-search {
+          background: #ffffff;
+          padding: 25px;
+          border-radius: 12px;
+          box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+          max-width: 600px;
+          margin: 0 auto 40px;
+          text-align: center;
+        }
+
+        .supplement-search h3 {
+          color: #0078ff;
+          margin-bottom: 10px;
+        }
+
+        .help-text {
+          font-size: 0.9rem;
+          color: #666;
+          margin-bottom: 15px;
+        }
+
+        .search-box {
+          display: flex;
+          justify-content: center;
+          gap: 10px;
+          flex-wrap: wrap;
+        }
+
+        .search-box input {
+          width: 70%;
+          padding: 10px 14px;
+          border: 1px solid #ccc;
+          border-radius: 8px;
+          outline: none;
+          font-size: 15px;
+        }
+
+        .search-box input:focus {
+          border-color: #0078ff;
+          box-shadow: 0 0 6px rgba(0, 120, 255, 0.4);
+        }
+
+        .btn-search {
+          background: linear-gradient(90deg, #0078ff, #00b4d8);
+          color: white;
+          border: none;
+          border-radius: 8px;
+          padding: 10px 20px;
+          cursor: pointer;
+          font-size: 15px;
+          transition: transform 0.2s, background 0.3s;
+        }
+
+        .btn-search:hover {
+          transform: scale(1.05);
+          background: linear-gradient(90deg, #0065cc, #009fb3);
+        }
+
+        /* 💊 Supplement Cards */
+        .supplement-results {
+          text-align: center;
+        }
+
+        .supplement-results h3 {
+          color: #0078ff;
+          margin-bottom: 20px;
+        }
+
+        .supplement-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+          gap: 20px;
+          padding: 0 20px;
+        }
+
+        .supplement-card {
+          background: white;
+          border-radius: 12px;
+          padding: 20px;
+          box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+          transition: transform 0.3s, box-shadow 0.3s;
+          position: relative;
+        }
+
+        .supplement-card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+        }
+
+        .supplement-card.highlighted {
+          border: 2px solid #00b4d8;
+          background: #f0faff;
+        }
+
+        .supplement-header h3 {
+          color: #0078ff;
+          margin-bottom: 8px;
+        }
+
+        .supplement-dosage {
+          background-color: #e3f2fd;
+          color: #0078ff;
+          padding: 4px 10px;
+          border-radius: 6px;
+          font-size: 13px;
+          font-weight: 600;
+        }
+
+        .supplement-details p {
+          margin: 8px 0;
+          color: #444;
+          text-align: left;
+        }
+
+        .btn-secondary {
+          background-color: #00b4d8;
+          color: white;
+          border: none;
+          padding: 8px 14px;
+          border-radius: 8px;
+          cursor: pointer;
+          font-size: 14px;
+          transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .btn-secondary:hover {
+          background-color: #0078ff;
+          transform: scale(1.05);
+        }
+
+        .no-results {
+          text-align: center;
+          color: #888;
+          font-size: 16px;
+          margin-top: 20px;
+        }
+
+        /* 🌟 Floating Action Button */
+        .fab {
+          position: fixed;
+          bottom: 25px;
+          right: 25px;
+          background: linear-gradient(90deg, #0078ff, #00b4d8);
+          color: white;
+          border: none;
+          border-radius: 50%;
+          width: 56px;
+          height: 56px;
+          font-size: 24px;
+          cursor: pointer;
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+          transition: transform 0.3s ease;
+        }
+
+        .fab:hover {
+          transform: scale(1.1);
+        }
+    </style>
+</head>
+
+<body>
+<!-- ✅ Navbar -->
+<nav class="navbar">
+    <div class="container">
+        <div class="nav-brand">🏥 Smart Healthcare</div>
+        <div class="nav-links">
+            <a href="/dashboard">Dashboard</a>
+            <a href="/symptom-analyzer">Symptom Analyzer</a>
+            <a href="/ai-assistant">AI Assistant</a>
+            <a href="/hospitals">Hospitals</a>
+            <a href="/supplements">Supplements</a>
+            <a href="/logout" class="btn-logout">Logout</a>
+        </div>
+    </div>
+</nav>
+
+<div class="page-container">
+    <div class="container">
+        <div class="page-header">
+            <h1>💊 Smart Supplement Suggestions</h1>
+            <p>Get personalized supplement recommendations based on your symptoms</p>
+        </div>
+
+        <!-- 🔍 Search Box -->
+        <div class="supplement-search">
+            <h3>Search by Symptoms</h3>
+            <p class="help-text">Enter symptoms separated by commas (e.g., fatigue, weakness, immunity)</p>
+            <div class="search-box">
+                <input type="text" id="symptomSearch" placeholder="Enter your symptoms...">
+                <button onclick="searchSupplements()" class="btn-search">Get Suggestions</button>
+            </div>
+        </div>
+
+        <!-- 💊 Results Section -->
+        <div class="supplement-results">
+            <h3>Available Supplements</h3>
+            <div class="supplement-grid" id="supplementList">
+                <div class="supplement-card" th:each="supplement : ${supplements}">
+                    <div class="supplement-header">
+                        <h3 th:text="${supplement.name}">Supplement Name</h3>
+                        <span class="supplement-dosage" th:text="${supplement.dosage}">Dosage</span>
+                    </div>
+                    <div class="supplement-details">
+                        <p><strong>💊 Dosage:</strong> <span th:text="${supplement.dosage}"></span></p>
+                        <p><strong>📅 Frequency:</strong> <span th:text="${supplement.frequency}"></span></p>
+                        <p><strong>✨ Benefits:</strong> <span th:text="${supplement.benefits}"></span></p>
+                        <p><strong>🎯 Suitable For:</strong> <span th:text="${supplement.suitableFor}"></span></p>
+                    </div>
+                    <div class="supplement-actions">
+                        <button class="btn-secondary" onclick="alert('Added to recommendations!')">Add to List</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 💡 Floating Action Button -->
+<button class="fab" onclick="scrollToTop()">⬆️</button>
+
+<script>
+    // 🧠 Fetch supplements based on entered symptoms
+    function searchSupplements() {
+      const symptoms = document.getElementById('symptomSearch').value.trim();
+
+      if (!symptoms) {
+        alert('Please enter symptoms to search');
+        return;
+      }
+
+      fetch(`/supplement-suggestions?symptoms=${encodeURIComponent(symptoms)}`)
+        .then(response => response.json())
+        .then(data => {
+          displaySupplements(data);
+        })
+        .catch(error => {
+          alert('Error fetching supplements. Please try again.');
+          console.error('Error:', error);
+        });
+    }
+
+    // 💊 Display supplements dynamically
+    function displaySupplements(supplements) {
+      const container = document.getElementById('supplementList');
+
+      if (supplements.length === 0) {
+        container.innerHTML = '<p class="no-results">No supplements found for the given symptoms. Showing all available supplements.</p>';
+        return;
+      }
+
+      container.innerHTML = '';
+
+      supplements.forEach(supplement => {
+        const card = document.createElement('div');
+        card.className = 'supplement-card highlighted';
+        card.innerHTML = `
+          <div class="supplement-header">
+            <h3>${supplement.name}</h3>
+            <span class="supplement-dosage">${supplement.dosage}</span>
+          </div>
+          <div class="supplement-details">
+            <p><strong>💊 Dosage:</strong> ${supplement.dosage}</p>
+            <p><strong>📅 Frequency:</strong> ${supplement.frequency}</p>
+            <p><strong>✨ Benefits:</strong> ${supplement.benefits}</p>
+            <p><strong>🎯 Suitable For:</strong> ${supplement.suitableFor}</p>
+          </div>
+          <div class="supplement-actions">
+            <button class="btn-secondary" onclick="alert('Added to recommendations!')">Add to List</button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // ⬆️ Smooth scroll-to-top button
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+</script>
+</body>
+</html>

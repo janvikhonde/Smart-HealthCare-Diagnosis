@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Healthcare Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ===== Global Styles ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f9fbfd;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* ===== Navbar ===== */
+        .navbar {
+            background: #ffffff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .nav-brand {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #0072ff;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .nav-links a {
+            color: #0072ff;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #005fcc;
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, #0072ff, #00c6ff);
+            color: #fff;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 6px 20px rgba(0,114,255,0.3);
+            transform: translateY(-2px);
+        }
+
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* ===== Hero Section ===== */
+        .hero {
+            background: linear-gradient(135deg, #0072ff 0%, #00c6ff 100%);
+            color: white;
+            padding: 4rem 0;
+        }
+
+        .hero-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 1.5rem;
+        }
+
+        .hero-content h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            font-weight: 400;
+            color: #e3f2fd;
+        }
+
+        .hero-description {
+            max-width: 700px;
+            font-size: 1rem;
+            color: #f2f8ff;
+        }
+
+        .hero-buttons {
+            margin-top: 1rem;
+        }
+
+        .btn-hero {
+            background: white;
+            color: #0072ff;
+            padding: 0.9rem 1.8rem;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-right: 1rem;
+        }
+
+        .btn-hero:hover {
+            background: #e3f2fd;
+            transform: translateY(-3px);
+        }
+
+        .btn-secondary {
+            border: 2px solid white;
+            color: white;
+            padding: 0.9rem 1.8rem;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-3px);
+        }
+
+        /* ===== Features Section ===== */
+        .features {
+            background: #f9fbfd;
+            padding: 4rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            color: #0072ff;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: "";
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, #0072ff, #00c6ff);
+            display: block;
+            margin: 0.5rem auto;
+            border-radius: 2px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: #ffffff;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 25px rgba(0,114,255,0.2);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            color: #0072ff;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-card p {
+            color: #555;
+            font-size: 0.95rem;
+        }
+
+        /* ===== Extra Section ===== */
+        .about {
+            background: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%);
+            color: white;
+            text-align: center;
+            padding: 3rem 1rem;
+            border-top-left-radius: 40px;
+            border-top-right-radius: 40px;
+        }
+
+        .about h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .about p {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1rem;
+            color: #e3f2fd;
+        }
+
+        /* ===== Footer ===== */
+        .footer {
+            background: #ffffff;
+            padding: 2rem 0;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #555;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .disclaimer {
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+            color: #999;
+        }
+
+        /* ===== Responsive ===== */
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar">
+    <div class="container">
+        <div class="nav-brand">🏥 Smart Healthcare</div>
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/login">Login</a>
+            <a href="/signup" class="btn-primary">Sign Up</a>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero">
+    <div class="container">
+        <div class="hero-content">
+            <h1>Your Health, Our Priority</h1>
+            <p class="hero-subtitle">AI-Driven Early Diagnosis & Preventive Healthcare Platform</p>
+            <p class="hero-description">
+                Get instant symptom analysis, personalized health insights, and connect with nearby healthcare facilities.
+            </p>
+            <div class="hero-buttons">
+                <a href="/signup" class="btn-hero">Get Started</a>
+                <a href="/login" class="btn-secondary">Login</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="features">
+    <div class="container">
+        <h2 class="section-title">Our Features</h2>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🔬</div>
+                <h3>Symptom Analyzer</h3>
+                <p>AI-powered analysis of your symptoms with disease predictions and recommendations.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🤖</div>
+                <h3>AI Health Assistant</h3>
+                <p>24/7 personal health assistant to answer your medical queries instantly.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🏥</div>
+                <h3>Nearby Hospitals</h3>
+                <p>Find healthcare facilities near you with specialties and contact information.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💊</div>
+                <h3>Supplement Suggestions</h3>
+                <p>Get personalized supplement recommendations based on your health needs.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Health Dashboard</h3>
+                <p>Track your health journey with comprehensive analytics and history.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔒</div>
+                <h3>Secure & Private</h3>
+                <p>Your health data is encrypted and kept completely confidential.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Extra About Section -->
+<section class="about">
+    <h2>Why Choose Smart Healthcare?</h2>
+    <p>
+        Our AI-driven platform empowers individuals to take control of their health.
+        We combine intelligent diagnosis, real-time tracking, and nearby assistance to ensure you’re never alone in your healthcare journey.
+    </p>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <p>&copy; 2025 Smart Healthcare Platform. All rights reserved.</p>
+        <p class="disclaimer">⚠️ This platform provides general health information. Always consult healthcare professionals for medical advice.</p>
+    </div>
+</footer>
+
+</body>
+</html>

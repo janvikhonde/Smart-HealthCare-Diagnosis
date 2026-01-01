@@ -1,0 +1,364 @@
+<!-- src/main/resources/templates/dashboard.html -->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Smart Healthcare</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        /* ===== GENERAL STYLING ===== */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #e3f2fd, #fce4ec);
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar {
+            background: linear-gradient(90deg, #0077b6, #00b4d8);
+            color: #fff;
+            padding: 1rem 0;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 90%;
+            margin: auto;
+        }
+
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .nav-links a {
+            color: #fff;
+            margin-left: 1rem;
+            text-decoration: none;
+            transition: 0.3s;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: #ffe57f;
+        }
+
+        .btn-logout {
+            background: #ff4d6d;
+            padding: 8px 14px;
+            border-radius: 25px;
+            transition: 0.3s;
+        }
+
+        .btn-logout:hover {
+            background: #ff758f;
+        }
+
+        /* ===== DASHBOARD HEADER ===== */
+        .dashboard-container {
+            padding: 2rem 0;
+        }
+
+        .dashboard-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-header h1 {
+            font-size: 2rem;
+            color: #0077b6;
+        }
+
+        .dashboard-header p {
+            color: #555;
+            margin-top: 5px;
+        }
+
+        /* ===== STATS GRID ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            width: 90%;
+            margin: auto;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.85);
+            border-radius: 20px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+        }
+
+        .stat-icon {
+            font-size: 2rem;
+            margin-right: 15px;
+        }
+
+        .stat-info h3 {
+            margin: 0;
+            color: #0077b6;
+            font-size: 1.5rem;
+        }
+
+        .stat-info p {
+            margin: 0;
+            color: #555;
+        }
+
+        /* ===== QUICK ACTIONS ===== */
+        .dashboard-actions {
+            text-align: center;
+            margin: 3rem 0;
+        }
+
+        .dashboard-actions h2 {
+            color: #0077b6;
+            margin-bottom: 1rem;
+        }
+
+        .action-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 1.5rem;
+            width: 90%;
+            margin: auto;
+        }
+
+        .action-card {
+            background: linear-gradient(135deg, #f8f9fa, #e3f2fd);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-decoration: none;
+            color: #333;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        }
+
+        .action-card:hover {
+            transform: translateY(-6px);
+            background: linear-gradient(135deg, #bbdefb, #90caf9);
+        }
+
+        .action-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        /* ===== RECENT ACTIVITY ===== */
+        .recent-activity {
+            background: rgba(255, 255, 255, 0.85);
+            padding: 2rem;
+            border-radius: 20px;
+            width: 90%;
+            margin: 2rem auto;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .activity-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f9fbfd;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border-radius: 12px;
+            transition: 0.3s;
+        }
+
+        .activity-item:hover {
+            background: #e3f2fd;
+        }
+
+        .badge {
+            padding: 5px 10px;
+            border-radius: 12px;
+            font-weight: bold;
+        }
+
+        .badge-high { background: #ff5252; color: #fff; }
+        .badge-moderate { background: #ffca28; color: #000; }
+        .badge-low { background: #66bb6a; color: #fff; }
+
+        .activity-score {
+            text-align: center;
+        }
+
+        .activity-score span {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #0077b6;
+        }
+
+        /* ===== EXTRA FEATURES ===== */
+        .health-tips {
+            width: 90%;
+            margin: 2rem auto;
+            background: linear-gradient(135deg, #c8e6c9, #a5d6a7);
+            border-radius: 15px;
+            padding: 1.5rem;
+            color: #2e7d32;
+        }
+
+        .ai-banner {
+            text-align: center;
+            background: linear-gradient(135deg, #ffcc80, #ffe0b2);
+            color: #5d4037;
+            padding: 1rem;
+            margin-top: 3rem;
+            border-radius: 12px;
+            font-weight: 500;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: #0077b6;
+            color: white;
+            text-align: center;
+            padding: 1.5rem 0;
+            margin-top: 3rem;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar">
+    <div class="container">
+        <div class="nav-brand">🏥 Smart Healthcare</div>
+        <div class="nav-links">
+            <a href="/dashboard">Dashboard</a>
+            <a href="/symptom-analyzer">Symptom Analyzer</a>
+            <a href="/ai-assistant">AI Assistant</a>
+            <a href="/hospitals">Hospitals</a>
+            <a href="/supplements">Supplements</a>
+            <a href="/logout" class="btn-logout">Logout</a>
+        </div>
+    </div>
+</nav>
+
+<!-- Dashboard Header -->
+<div class="dashboard-container">
+    <div class="container">
+        <div class="dashboard-header">
+            <h1>Welcome, <span th:text="${userName}">User</span> 👋</h1>
+            <p>Here's your real-time health overview</p>
+        </div>
+
+        <!-- Stats Section -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">📊</div>
+                <div class="stat-info">
+                    <h3 th:text="${totalAnalyses}">0</h3>
+                    <p>Total Analyses</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">💪</div>
+                <div class="stat-info">
+                    <h3>Active</h3>
+                    <p>Health Status</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">💊</div>
+                <div class="stat-info">
+                    <h3>6+</h3>
+                    <p>Supplements Available</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🏥</div>
+                <div class="stat-info">
+                    <h3>5+</h3>
+                    <p>Nearby Hospitals</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="dashboard-actions">
+            <h2>Quick Actions</h2>
+            <div class="action-grid">
+                <a href="/symptom-analyzer" class="action-card">
+                    <div class="action-icon">🔬</div>
+                    <h3>Analyze Symptoms</h3>
+                    <p>AI-powered health insights</p>
+                </a>
+                <a href="/ai-assistant" class="action-card">
+                    <div class="action-icon">🤖</div>
+                    <h3>Chat with AI</h3>
+                    <p>Ask health-related questions</p>
+                </a>
+                <a href="/hospitals" class="action-card">
+                    <div class="action-icon">🏥</div>
+                    <h3>Find Hospitals</h3>
+                    <p>Locate nearby healthcare facilities</p>
+                </a>
+                <a href="/supplements" class="action-card">
+                    <div class="action-icon">💊</div>
+                    <h3>Get Supplements</h3>
+                    <p>Personalized suggestions</p>
+                </a>
+            </div>
+        </div>
+
+        <!-- Recent Analyses -->
+        <div class="recent-activity" th:if="${recentAnalyses}">
+            <h2>Recent Analyses</h2>
+            <div class="activity-list">
+                <div class="activity-item" th:each="analysis : ${recentAnalyses}">
+                    <div class="activity-info">
+                        <h4 th:text="${analysis.predictedDisease}">Disease</h4>
+                        <p th:text="${analysis.symptoms}">Symptoms</p>
+                        <span class="badge"
+                              th:classappend="${analysis.severity == 'High' ? 'badge-high' :
+                              (analysis.severity == 'Moderate' ? 'badge-moderate' : 'badge-low')}"
+                              th:text="${analysis.severity}">Low</span>
+                    </div>
+                    <div class="activity-score">
+                        <span th:text="${analysis.confidenceScore} + '%'">85%</span>
+                        <small>Confidence</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Health Tips -->
+        <div class="health-tips">
+            <h3>💡 Daily Health Tip</h3>
+            <p>Stay hydrated! Drink at least 8 glasses of water every day to boost immunity and maintain body function.</p>
+        </div>
+
+        <!-- AI Insights Banner -->
+        <div class="ai-banner">
+            🤖 AI Insight: “Your activity levels indicate great consistency this week. Keep it up for a healthier lifestyle!”
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <p>&copy; 2025 Smart Healthcare Platform. All rights reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>
