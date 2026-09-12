@@ -1,20 +1,22 @@
-**🏥 AI-Driven Early Diagnosis \& Preventive Healthcare Platform**
+\# 🏥 AI-Driven Early Diagnosis \& Preventive Healthcare Platform
 
 
 
-**🌐 Live Demo**
+\## 🌐 Live Demo
 
 
 
-**🚀 Live Application:**
+🚀 \*\*Live Application:\*\*
 
 https://smart-healthcare-app-l2e2.onrender.com
 
 
 
+\---
 
 
-**📌 About the Project**
+
+\## 📌 About the Project
 
 
 
@@ -26,13 +28,15 @@ The platform provides symptom-based analysis, personalized disease prediction, a
 
 
 
-⚠️ **Disclaimer:** This application provides an initial indication based on user-provided symptoms. It is not a replacement for professional medical diagnosis or consultation.
+> ⚠️ \*\*Disclaimer:\*\* This application provides an initial indication based on user-provided symptoms. It is not a replacement for professional medical diagnosis or consultation.
 
 
 
+\---
 
 
-**🎯 Problem Statement**
+
+\## 🎯 Problem Statement
 
 
 
@@ -54,13 +58,15 @@ This project aims to provide users with a simple platform where they can:
 
 
 
-
-
-**✨ Key Features**
+\---
 
 
 
-**🩺 Symptom Analysis**
+\## ✨ Key Features
+
+
+
+\### 🩺 Symptom Analysis
 
 
 
@@ -72,7 +78,7 @@ This project aims to provide users with a simple platform where they can:
 
 
 
-**🤖 AI Assistant**
+\### 🤖 AI Assistant
 
 
 
@@ -84,7 +90,7 @@ This project aims to provide users with a simple platform where they can:
 
 
 
-**🏥 Nearby Healthcare Facilities**
+\### 🏥 Nearby Healthcare Facilities
 
 
 
@@ -96,7 +102,7 @@ This project aims to provide users with a simple platform where they can:
 
 
 
-**👤 User Authentication**
+\### 👤 User Authentication
 
 
 
@@ -108,7 +114,7 @@ This project aims to provide users with a simple platform where they can:
 
 
 
-**🗄️ Database Management**
+\### 🗄️ Database Management
 
 
 
@@ -118,7 +124,7 @@ This project aims to provide users with a simple platform where they can:
 
 
 
-🌐 **Responsive Web Interface**
+\### 🌐 Responsive Web Interface
 
 
 
@@ -130,9 +136,11 @@ This project aims to provide users with a simple platform where they can:
 
 
 
+\---
 
 
-**🛠️ Technologies Used**
+
+\## 🛠️ Technologies Used
 
 
 
@@ -164,11 +172,15 @@ This project aims to provide users with a simple platform where they can:
 
 
 
+\---
 
 
-**🏗️ System Architecture**
+
+\## 🏗️ System Architecture
 
 
+
+```text
 
 &#x20;               ┌──────────────────────┐
 
@@ -232,13 +244,23 @@ This project aims to provide users with a simple platform where they can:
 
 &#x20;      └───────────────┘
 
-
-
-**📸 Screenshots**
+```
 
 
 
-📊 **Dashboard**
+\---
+
+
+
+\## 📸 Screenshots
+
+
+
+> All screenshots are stored in the `screenshots/` folder at the project root. Filenames containing spaces are URL-encoded (`%20`) below so the images render correctly on GitHub.
+
+
+
+\### 📊 Dashboard
 
 
 
@@ -246,9 +268,11 @@ This project aims to provide users with a simple platform where they can:
 
 
 
+\---
 
 
-🩺 **Symptom Analyzer**
+
+\### 🩺 Symptom Analyzer
 
 
 
@@ -256,9 +280,11 @@ This project aims to provide users with a simple platform where they can:
 
 
 
+\---
 
 
-🤖 **Smart AI Health Assistant**
+
+\### 🤖 Smart AI Health Assistant
 
 
 
@@ -266,9 +292,11 @@ This project aims to provide users with a simple platform where they can:
 
 
 
+\---
 
 
-🏥 **Find Nearby Hospitals**
+
+\### 🏥 Find Nearby Hospitals
 
 
 
@@ -276,11 +304,15 @@ This project aims to provide users with a simple platform where they can:
 
 
 
+\---
 
 
-📂 **Project Structure**
+
+\## 📂 Project Structure
 
 
+
+```text
 
 SmartHealthCareDiagnosis/
 
@@ -352,29 +384,43 @@ SmartHealthCareDiagnosis/
 
 └── README.md
 
-
-
-⚙️ **Running the Project Locally**
+```
 
 
 
-1\. Clone the Repository
+\---
 
 
+
+\## ⚙️ Running the Project Locally
+
+
+
+\### 1. Clone the Repository
+
+
+
+```bash
 
 git clone https://github.com/janvikhonde/Smart-HealthCare-Diagnosis.git
 
+```
 
 
-**2. Navigate to the Project**
+
+\### 2. Navigate to the Project
 
 
+
+```bash
 
 cd Smart-HealthCare-Diagnosis
 
+```
 
 
-**3. Configure MySQL**
+
+\### 3. Configure MySQL
 
 
 
@@ -382,13 +428,19 @@ Create a MySQL database:
 
 
 
+```sql
+
 CREATE DATABASE healthcare\_db;
+
+```
 
 
 
 Configure the required database environment variables:
 
 
+
+```text
 
 DATABASE\_HOST=localhost
 
@@ -400,7 +452,7 @@ DATABASE\_USERNAME=root
 
 DATABASE\_PASSWORD=your\_password
 
-
+```
 
 
 
@@ -408,7 +460,7 @@ DATABASE\_PASSWORD=your\_password
 
 
 
-**4. Run the Application**
+\### 4. Run the Application
 
 
 
@@ -416,7 +468,11 @@ Using Maven Wrapper on Windows:
 
 
 
+```cmd
+
 mvnw.cmd spring-boot:run
+
+```
 
 
 
@@ -424,7 +480,11 @@ Or build the application:
 
 
 
+```cmd
+
 mvnw.cmd clean package
+
+```
 
 
 
@@ -432,19 +492,31 @@ Then run the generated JAR:
 
 
 
+```cmd
+
 java -jar target/smart-healthcare-platform-1.0.0.jar
 
-
+```
 
 
 
 The application will normally be available at:
 
+
+
+```text
+
 http://localhost:8080
 
+```
 
 
-🐳 **Running with Docker**
+
+\---
+
+
+
+\## 🐳 Running with Docker
 
 
 
@@ -452,13 +524,19 @@ Build the Docker image:
 
 
 
+```cmd
+
 docker build -t smart-healthcare-app .
+
+```
 
 
 
 Run the container:
 
 
+
+```cmd
 
 docker run -d --name smart-healthcare-container -p 8080:8080 ^
 
@@ -474,21 +552,39 @@ docker run -d --name smart-healthcare-container -p 8080:8080 ^
 
 smart-healthcare-app
 
+```
+
 
 
 Check the running container:
 
+
+
+```cmd
+
 docker ps
+
+```
 
 
 
 View logs:
 
+
+
+```cmd
+
 docker logs smart-healthcare-container
 
+```
 
 
-☁️ **Deployment**
+
+\---
+
+
+
+\## ☁️ Deployment
 
 
 
@@ -496,25 +592,27 @@ The application is deployed using a containerized deployment architecture.
 
 
 
-**Backend Application**
+\### Backend Application
 
 
 
-**Render** is used to host the Spring Boot application.
+\*\*Render\*\* is used to host the Spring Boot application.
 
 
 
-**Database**
+\### Database
 
 
 
-**Aiven MySQL** is used as the cloud-hosted MySQL database.
+\*\*Aiven MySQL\*\* is used as the cloud-hosted MySQL database.
 
 
 
-**Deployment Flow**
+\### Deployment Flow
 
 
+
+```text
 
 GitHub Repository
 
@@ -542,9 +640,11 @@ GitHub Repository
 
 &#x20;  Aiven MySQL
 
+```
 
 
-**Live Application**
+
+\### Live Application
 
 
 
@@ -552,7 +652,11 @@ GitHub Repository
 
 
 
-**🔐 Security**
+\---
+
+
+
+\## 🔐 Security
 
 
 
@@ -561,6 +665,10 @@ Sensitive configuration should be supplied through environment variables rather 
 
 
 Examples include:
+
+
+
+```text
 
 DATABASE\_HOST
 
@@ -574,15 +682,19 @@ DATABASE\_PASSWORD
 
 PORT
 
+```
+
 
 
 The actual database password should \*\*never be committed to GitHub\*\*.
 
 
 
+\---
 
 
-🚀 **Future Enhancements**
+
+\## 🚀 Future Enhancements
 
 
 
@@ -607,6 +719,4 @@ Some possible future improvements include:
 \* Mobile application support.
 
 \* Integration with additional healthcare APIs.
-
-
 
