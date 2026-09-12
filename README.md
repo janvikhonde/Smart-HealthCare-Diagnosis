@@ -262,13 +262,11 @@ This project aims to provide users with a simple platform where they can:
 
 \### 📊 Dashboard
 
+!\[Dashboard](https://raw.githubusercontent.com/janvikhonde/Smart-HealthCare-Diagnosis/main/screenshots/Dashboard.png)
 
 
-!\[Dashboard](screenshots/Dashboard.png)
 
 
-
-\---
 
 
 
@@ -276,35 +274,19 @@ This project aims to provide users with a simple platform where they can:
 
 
 
-!\[Symptom Analyzer](screenshots/Symptom%20Analyzer.png)
-
-
-
-\---
+!\[Symptom Analyzer](https://raw.githubusercontent.com/janvikhonde/Smart-HealthCare-Diagnosis/main/screenshots/Symptom%20Analyzer.png)
 
 
 
 \### 🤖 Smart AI Health Assistant
 
-
-
-!\[Smart AI Health Assistant](screenshots/Smart%20AI%20Health%20Assistant.png)
-
-
-
-\---
+&#x20;!\[Smart AI Health Assistant](https://raw.githubusercontent.com/janvikhonde/Smart-HealthCare-Diagnosis/main/screenshots/Smart%20AI%20Health%20Assistant.png)
 
 
 
 \### 🏥 Find Nearby Hospitals
 
-
-
-!\[Find Nearby Hospitals](screenshots/Find%20Nearby%20Hospitals.png)
-
-
-
-\---
+&#x20;!\[Find Nearby Hospitals](https://raw.githubusercontent.com/janvikhonde/Smart-HealthCare-Diagnosis/main/screenshots/Find%20Nearby%20Hospitals.png)
 
 
 
