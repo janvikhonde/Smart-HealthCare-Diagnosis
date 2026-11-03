@@ -1,148 +1,82 @@
-\# 🏥 AI-Driven Early Diagnosis \& Preventive Healthcare Platform
+🏥 AI-Driven Early Diagnosis & Preventive Healthcare Platform
 
+📌 About the Project
 
-
-\## 🌐 Live Demo
-
-
-
-🚀 \*\*Live Application:\*\*
-
-https://smart-healthcare-app-l2e2.onrender.com
-
-
-
-\---
-
-
-
-\## 📌 About the Project
-
-
-
-The \*\*AI-Driven Early Diagnosis \& Preventive Healthcare Platform\*\* is a web-based healthcare application designed to help users understand their symptoms and receive an initial indication of possible health conditions.
-
-
-
+The AI-Driven Early Diagnosis & Preventive Healthcare Platform is a web-based healthcare application designed to help users understand their symptoms and receive an initial indication of possible health conditions.
 The platform provides symptom-based analysis, personalized disease prediction, and location-based recommendations for nearby healthcare facilities.
 
 
+⚠️ Disclaimer: This application provides an initial indication based on user-provided symptoms. It is not a replacement for professional medical diagnosis or consultation.
 
-> ⚠️ \*\*Disclaimer:\*\* This application provides an initial indication based on user-provided symptoms. It is not a replacement for professional medical diagnosis or consultation.
-
-
-
-\---
-
-
-
-\## 🎯 Problem Statement
-
-
-
+🎯 Problem Statement
 Many people ignore early symptoms or are unsure about which healthcare facility they should visit. Professional consultations can also be expensive for minor or initial health concerns.
-
-
 
 This project aims to provide users with a simple platform where they can:
 
+* Analyze their symptoms.
 
+* Get an initial indication of possible diseases.
 
-\* Analyze their symptoms.
+* Find nearby hospitals and healthcare facilities.
 
-\* Get an initial indication of possible diseases.
+* Access healthcare-related assistance from one platform.
 
-\* Find nearby hospitals and healthcare facilities.
 
-\* Access healthcare-related assistance from one platform.
+✨ Key Features
 
+🩺 Symptom Analysis
 
+* Users can enter their symptoms.
 
-\---
+* The system analyzes the provided symptoms.
 
+* Provides an initial indication of possible health conditions.
 
 
-\## ✨ Key Features
+🤖 AI Assistant
 
+* Provides basic healthcare-related responses.
 
+* Helps users understand common symptoms and health concerns.
 
-\### 🩺 Symptom Analysis
+* Designed to provide preliminary information rather than medical diagnosis.
 
 
+ 🏥 Nearby Healthcare Facilities
 
-\* Users can enter their symptoms.
+* Uses location-based services to identify nearby healthcare facilities.
 
-\* The system analyzes the provided symptoms.
+* Displays hospitals and relevant healthcare locations on an interactive map.
 
-\* Provides an initial indication of possible health conditions.
+* Uses map-based visualization for easier navigation.
 
 
+👤 User Authentication
 
-\### 🤖 AI Assistant
+* User registration and login.
 
+* Session-based user access.
 
+* Protected application features.
 
-\* Provides basic healthcare-related responses.
 
-\* Helps users understand common symptoms and health concerns.
+🗄️ Database Management
 
-\* Designed to provide preliminary information rather than medical diagnosis.
+* Stores application and user-related information using MySQL.
 
+* Uses Spring Data JPA/Hibernate for database operations.
 
 
-\### 🏥 Nearby Healthcare Facilities
+🌐 Responsive Web Interface
 
+* Simple and user-friendly web interface.
 
+* Built using HTML, CSS and JavaScript.
 
-\* Uses location-based services to identify nearby healthcare facilities.
+* Integrated with Spring Boot backend services.
 
-\* Displays hospitals and relevant healthcare locations on an interactive map.
 
-\* Uses map-based visualization for easier navigation.
-
-
-
-\### 👤 User Authentication
-
-
-
-\* User registration and login.
-
-\* Session-based user access.
-
-\* Protected application features.
-
-
-
-\### 🗄️ Database Management
-
-
-
-\* Stores application and user-related information using MySQL.
-
-\* Uses Spring Data JPA/Hibernate for database operations.
-
-
-
-\### 🌐 Responsive Web Interface
-
-
-
-\* Simple and user-friendly web interface.
-
-\* Built using HTML, CSS and JavaScript.
-
-\* Integrated with Spring Boot backend services.
-
-
-
-\---
-
-
-
-\## 🛠️ Technologies Used
-
-
+🛠️ Technologies Used
 
 | Category                 | Technologies                     |
 
@@ -171,16 +105,7 @@ This project aims to provide users with a simple platform where they can:
 | Version Control          | Git, GitHub                      |
 
 
-
-\---
-
-
-
-\## 🏗️ System Architecture
-
-
-
-```text
+🏗️ System Architecture
 
 &#x20;               ┌──────────────────────┐
 
@@ -244,57 +169,9 @@ This project aims to provide users with a simple platform where they can:
 
 &#x20;      └───────────────┘
 
-```
 
 
-
-\---
-
-
-
-\## 📸 Screenshots
-
-
-
-> All screenshots are stored in the `screenshots/` folder at the project root. Filenames containing spaces are URL-encoded (`%20`) below so the images render correctly on GitHub.
-
-
-
-\### 📊 Dashboard
-
-!\[Dashboard](https://raw.githubusercontent.com/janvikhonde/Smart-HealthCare-Diagnosis/main/screenshots/Dashboard.png)
-
-
-
-
-
-
-
-\### 🩺 Symptom Analyzer
-
-
-
-!\[Symptom Analyzer](https://raw.githubusercontent.com/janvikhonde/Smart-HealthCare-Diagnosis/main/screenshots/Symptom%20Analyzer.png)
-
-
-
-\### 🤖 Smart AI Health Assistant
-
-&#x20;!\[Smart AI Health Assistant](https://raw.githubusercontent.com/janvikhonde/Smart-HealthCare-Diagnosis/main/screenshots/Smart%20AI%20Health%20Assistant.png)
-
-
-
-\### 🏥 Find Nearby Hospitals
-
-&#x20;!\[Find Nearby Hospitals](https://raw.githubusercontent.com/janvikhonde/Smart-HealthCare-Diagnosis/main/screenshots/Find%20Nearby%20Hospitals.png)
-
-
-
-\## 📂 Project Structure
-
-
-
-```text
+📂 Project Structure
 
 SmartHealthCareDiagnosis/
 
@@ -366,63 +243,29 @@ SmartHealthCareDiagnosis/
 
 └── README.md
 
-```
 
 
+⚙️ Running the Project Locally
 
-\---
+1. Clone the Repository
 
-
-
-\## ⚙️ Running the Project Locally
-
-
-
-\### 1. Clone the Repository
-
-
-
-```bash
+bash
 
 git clone https://github.com/janvikhonde/Smart-HealthCare-Diagnosis.git
 
-```
-
-
-
-\### 2. Navigate to the Project
-
-
-
-```bash
+2. Navigate to the Project
 
 cd Smart-HealthCare-Diagnosis
 
-```
 
-
-
-\### 3. Configure MySQL
-
-
+3. Configure MySQL
 
 Create a MySQL database:
 
 
-
-```sql
-
 CREATE DATABASE healthcare\_db;
 
-```
-
-
-
 Configure the required database environment variables:
-
-
-
-```text
 
 DATABASE\_HOST=localhost
 
@@ -434,271 +277,45 @@ DATABASE\_USERNAME=root
 
 DATABASE\_PASSWORD=your\_password
 
-```
 
-
-
-> Never commit real database passwords or other secrets to GitHub.
-
-
-
-\### 4. Run the Application
-
-
+4. Run the Application
 
 Using Maven Wrapper on Windows:
 
-
-
-```cmd
-
 mvnw.cmd spring-boot:run
-
-```
-
 
 
 Or build the application:
 
-
-
-```cmd
-
 mvnw.cmd clean package
-
-```
-
-
 
 Then run the generated JAR:
 
-
-
-```cmd
-
 java -jar target/smart-healthcare-platform-1.0.0.jar
-
-```
-
 
 
 The application will normally be available at:
 
-
-
-```text
-
 http://localhost:8080
 
-```
 
-
-
-\---
-
-
-
-\## 🐳 Running with Docker
-
-
-
-Build the Docker image:
-
-
-
-```cmd
-
-docker build -t smart-healthcare-app .
-
-```
-
-
-
-Run the container:
-
-
-
-```cmd
-
-docker run -d --name smart-healthcare-container -p 8080:8080 ^
-
-\-e DATABASE\_HOST=host.docker.internal ^
-
-\-e DATABASE\_PORT=3306 ^
-
-\-e DATABASE\_NAME=healthcare\_db ^
-
-\-e DATABASE\_USERNAME=root ^
-
-\-e DATABASE\_PASSWORD=your\_password ^
-
-smart-healthcare-app
-
-```
-
-
-
-Check the running container:
-
-
-
-```cmd
-
-docker ps
-
-```
-
-
-
-View logs:
-
-
-
-```cmd
-
-docker logs smart-healthcare-container
-
-```
-
-
-
-\---
-
-
-
-\## ☁️ Deployment
-
-
-
-The application is deployed using a containerized deployment architecture.
-
-
-
-\### Backend Application
-
-
-
-\*\*Render\*\* is used to host the Spring Boot application.
-
-
-
-\### Database
-
-
-
-\*\*Aiven MySQL\*\* is used as the cloud-hosted MySQL database.
-
-
-
-\### Deployment Flow
-
-
-
-```text
-
-GitHub Repository
-
-&#x20;      │
-
-&#x20;      ▼
-
-&#x20;   Docker
-
-&#x20;      │
-
-&#x20;      ▼
-
-&#x20;    Render
-
-&#x20;      │
-
-&#x20;      ▼
-
-&#x20;Spring Boot Application
-
-&#x20;      │
-
-&#x20;      ▼
-
-&#x20;  Aiven MySQL
-
-```
-
-
-
-\### Live Application
-
-
-
-👉 https://smart-healthcare-app-l2e2.onrender.com
-
-
-
-\---
-
-
-
-\## 🔐 Security
-
-
-
-Sensitive configuration should be supplied through environment variables rather than being hardcoded into the source code.
-
-
-
-Examples include:
-
-
-
-```text
-
-DATABASE\_HOST
-
-DATABASE\_PORT
-
-DATABASE\_NAME
-
-DATABASE\_USERNAME
-
-DATABASE\_PASSWORD
-
-PORT
-
-```
-
-
-
-The actual database password should \*\*never be committed to GitHub\*\*.
-
-
-
-\---
-
-
-
-\## 🚀 Future Enhancements
-
-
-
+🚀 Future Enhancements
 Some possible future improvements include:
+* Integration with more advanced machine-learning models.
 
+* Improved disease prediction accuracy.
 
+* Doctor appointment booking.
 
-\* Integration with more advanced machine-learning models.
+* User health history and reports.
 
-\* Improved disease prediction accuracy.
+* Emergency contact functionality.
 
-\* Doctor appointment booking.
+* More healthcare facility categories.
 
-\* User health history and reports.
+* Improved authentication and authorization.
 
-\* Emergency contact functionality.
+* Mobile application support.
 
-\* More healthcare facility categories.
-
-\* Improved authentication and authorization.
-
-\* Mobile application support.
-
-\* Integration with additional healthcare APIs.
+* Integration with additional healthcare APIs.
 
